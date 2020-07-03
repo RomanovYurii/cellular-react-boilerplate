@@ -1,6 +1,6 @@
-#React Boilerplate
+# React Boilerplate
 
-##1. Toolkit
+## 1. Toolkit
 
 -   ReactJS
 -   Prettier
