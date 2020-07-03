@@ -20,10 +20,10 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"component": "bash generateComponent.sh",
-		"component:win": "sh generateComponent.sh",
-		"c": "bash generateComponent.sh",
-		"c:w": "sh generateComponent.sh"
+		"component": "bash sh/generateComponent.sh",
+		"component:win": "sh sh/generateComponent.sh",
+		"c": "bash sh/generateComponent.sh",
+		"c:w": "sh sh/generateComponent.sh"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
