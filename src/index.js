@@ -1,11 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import App from './components/App/App';
+import RootNavigator from './navigation/RootNavigator';
 
-ReactDOM.render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
-	document.getElementById('root')
-);
+ReactDOM.render(<RootNavigator />, document.getElementById('root'));

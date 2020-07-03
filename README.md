@@ -4,7 +4,7 @@
 
 -   ReactJS
 -   Prettier
--   react-router-dom
+-   @reach/router
 -   redux
 -   redux-persist
 -   react-redux
