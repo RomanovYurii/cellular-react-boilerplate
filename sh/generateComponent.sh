@@ -1,47 +1,98 @@
+#!/bin/sh
 componentType=""
 componentsFolder="./src/components"
 
+# shellcheck disable=SC2039
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
   case $1 in
   -sh | --shared)
-    componentType="shared"
+    componentType=" shared"
     componentsFolder="./src/components/shared"
     ;;
   esac
   shift
 done
+# shellcheck disable=SC2039
 if [[ "$1" == '--' ]]; then shift; fi
 
+componentNames=""
 for componentName; do
+  # shellcheck disable=SC2039
+  componentNames+=$componentName
+  # shellcheck disable=SC2039
+  componentNames+=" "
+
   # Create folder
   componentFolder="$componentsFolder/$componentName"
   mkdir "$componentFolder"
+
   # Create component
-  touch "$componentFolder/$componentName.js"
-  echo "import React from 'react';const $componentName = () => {return <div></div>;};
-  export default $componentName;" >>"$componentFolder/$componentName.js"
+  echo "
+    import React from 'react';
+    import './$componentName.styles.scss';
+    import * as constants from './$componentName.constants';
+    const $componentName = () => {
+      return <div></div>;
+    };
+    export default $componentName;
+  " >>"$componentFolder/$componentName.js"
+
   # Create exporter
-  touch "$componentFolder/index.js"
   echo "import $componentName from './$componentName';export default $componentName;" >>"$componentFolder/index.js"
+
+  # Create redux subfolder
+  mkdir "$componentFolder/rdx"
+
+  # Create actions
+  touch "$componentFolder/rdx/$componentName.actions.js"
+
+  # Create actionTypes
+  touch "$componentFolder/rdx/$componentName.actionTypes.js"
+
+  # Create reducer
+  echo "
+    const initialState = {};
+
+    export default (state = initialState, action) => {
+      const {payload, type} = action;
+
+      switch (type) {
+        default:
+          return state;
+      }
+    };
+  " >> "$componentFolder/rdx/$componentName.reducer.js"
+
+  # Create constants
+  echo "export default {componentName: '$componentName'};" >> "$componentFolder/$componentName.constants.js"
+
   # Create styles
   touch "$componentFolder/$componentName.styles.scss"
-  echo "@import '$componentFolder/$componentName.styles';" >>"./src/index.scss"
+
   # Create test
-  touch "$componentFolder/$componentName.test.js"
-  echo "import React from 'react';
+  echo "
+    import React from 'react';
     import $componentName from './$componentName';
     import renderer from 'react-test-renderer';
 
     test('$componentName renders correctly', () => {
     const tree = renderer.create(<$componentName/>).toJSON();
     expect(tree).toMatchSnapshot();
-    });" >>"$componentFolder/$componentName.test.js"
-  yarn test -u --watchAll=false
+    });
+  " >>"$componentFolder/$componentName.test.js"
+
   # Prettify
   prettier --write .
-  # Commit
-  git add .
-  git commit -a -m "Created $componentType component $componentName"
+
 done
 
+# Success message
+echo "Created$componentType component(s): $componentNames"
+
+# Update snapshots
+yarn test -u --watchAll=false
+
+# Commit changes
+git add .
+git commit -a -m "Created$componentType component(s): $componentNames"
 git push

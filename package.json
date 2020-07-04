@@ -13,7 +13,10 @@
 		"react-redux": "^7.2.0",
 		"react-scripts": "3.4.1",
 		"redux": "^4.0.5",
-		"redux-persist": "^6.0.0"
+		"redux-devtools-extension": "^2.13.8",
+		"redux-logger": "^3.0.6",
+		"redux-persist": "^6.0.0",
+		"redux-thunk": "^2.3.0"
 	},
 	"scripts": {
 		"start": "react-scripts start",
@@ -21,9 +24,7 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"component": "bash sh/generateComponent.sh",
-		"component:win": "sh sh/generateComponent.sh",
-		"c": "bash sh/generateComponent.sh",
-		"c:w": "sh sh/generateComponent.sh"
+		"c": "bash sh/generateComponent.sh"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
