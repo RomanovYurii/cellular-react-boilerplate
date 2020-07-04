@@ -9,6 +9,11 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
     componentType=" shared"
     componentsFolder="./src/components/shared"
     ;;
+  -p | --parent )
+    shift; parent=$1
+    mkdir "$componentsFolder/$parent/children"
+    componentsFolder+="/$parent/children"
+    ;;
   esac
   shift
 done
