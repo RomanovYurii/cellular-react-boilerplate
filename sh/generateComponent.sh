@@ -34,11 +34,16 @@ for componentName; do
   # Create component
   echo "
     import React from 'react';
+    import PropTypes from 'prop-types';
     import './$componentName.styles.scss';
     import * as constants from './$componentName.constants';
+
+    $componentName.propTypes = {};
+
     const $componentName = () => {
       return <div></div>;
     };
+
     export default $componentName;
   " >>"$componentFolder/$componentName.js"
 
