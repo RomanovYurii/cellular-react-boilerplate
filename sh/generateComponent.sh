@@ -5,15 +5,6 @@ componentsFolder="./src/components/cells"
 # shellcheck disable=SC2039
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
   case $1 in
-  -sh | --shared)
-    componentType=" shared"
-    componentsFolder="./src/components/shared"
-    ;;
-  -p | --parent )
-    shift; parent=$1
-    mkdir "$componentsFolder/$parent/children"
-    componentsFolder+="/$parent/children"
-    ;;
   -c | --cell)
     componentType=" cell"
     componentsFolder="./src/components/cells"
@@ -112,17 +103,16 @@ for componentName; do
   " >>"$componentFolder/$componentName.test.js"
 
   # Prettify
-  prettier --write .
+  prettier --write "$componentFolder"/*
 
+  # Update snapshots
+  yarn test -u --watchAll=false --testPathPattern="$componentFolder"
 done
 
 # Success message
 echo "Created$componentType component(s): $componentNames"
 
-# Update snapshots
-yarn test -u --watchAll=false
-
 # Commit changes
-git add .
-git commit -a -m "Created$componentType component(s): $componentNames"
-git push
+#git add .
+#git commit -a -m "Created$componentType component(s): $componentNames"
+#git push
