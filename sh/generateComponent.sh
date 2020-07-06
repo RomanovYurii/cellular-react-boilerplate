@@ -27,8 +27,8 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
     componentsFolder="./src/components/units"
     ;;
   -o | --organ)
-    componentType=" organ"
-    componentsFolder="./src/components/organs"
+    componentType=" organism"
+    componentsFolder="./src/components/organisms"
     ;;
   -e | -eco | --ecosystem)
     componentType=" ecosystem"
@@ -58,11 +58,11 @@ for componentName; do
     import './$componentName.styles.scss';
     import * as constants from './$componentName.constants';
 
-    $componentName.propTypes = {};
-
     const $componentName = () => {
       return <div></div>;
     };
+
+    $componentName.propTypes = {};
 
     export default $componentName;
   " >>"$componentFolder/$componentName.js"
