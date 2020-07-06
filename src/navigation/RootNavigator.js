@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router } from '@reach/router';
-import App from '../components/App';
+import App from '../components/ecosystems/App';
 
 const RootNavigator = () => {
 	return (

@@ -1,6 +1,6 @@
 #!/bin/sh
 componentType=""
-componentsFolder="./src/components"
+componentsFolder="./src/components/cells"
 
 # shellcheck disable=SC2039
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
@@ -13,6 +13,26 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
     shift; parent=$1
     mkdir "$componentsFolder/$parent/children"
     componentsFolder+="/$parent/children"
+    ;;
+  -c | --cell)
+    componentType=" cell"
+    componentsFolder="./src/components/cells"
+    ;;
+  -t | --tissue)
+    componentType=" tissue"
+    componentsFolder="./src/components/tissues"
+    ;;
+  -u | --unit)
+    componentType=" unit"
+    componentsFolder="./src/components/units"
+    ;;
+  -o | --organ)
+    componentType=" organ"
+    componentsFolder="./src/components/organs"
+    ;;
+  -e | -eco | --ecosystem)
+    componentType=" ecosystem"
+    componentsFolder="./src/components/ecosystems"
     ;;
   esac
   shift
