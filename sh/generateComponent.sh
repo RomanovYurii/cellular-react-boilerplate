@@ -1,6 +1,7 @@
 #!/bin/sh
 componentType=""
 componentsFolder="./src/components/cells"
+withRedux=0
 
 # shellcheck disable=SC2039
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
@@ -25,6 +26,9 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
     componentType=" ecosystem"
     componentsFolder="./src/components/ecosystems"
     ;;
+  --withRedux)
+    shift; withRedux=1
+    ;;
   esac
   shift
 done
@@ -47,7 +51,6 @@ for componentName; do
     import React from 'react';
     import PropTypes from 'prop-types';
     import './$componentName.styles.scss';
-    import * as constants from './$componentName.constants';
 
     const $componentName = () => {
       return <div></div>;
@@ -61,58 +64,45 @@ for componentName; do
   # Create exporter
   echo "import $componentName from './$componentName';export default $componentName;" >>"$componentFolder/index.js"
 
-  # Create redux subfolder
-  mkdir "$componentFolder/rdx"
+  if [[ "$withRedux" = 1 ]]; then
+    # Create redux subfolder
+    mkdir "$componentFolder/rdx"
 
-  # Create actions
-  touch "$componentFolder/rdx/$componentName.actions.js"
+    # Create actions
+    touch "$componentFolder/rdx/$componentName.actions.js"
 
-  # Create actionTypes
-  touch "$componentFolder/rdx/$componentName.actionTypes.js"
+    # Create actionTypes
+    touch "$componentFolder/rdx/$componentName.actionTypes.js"
 
-  # Create reducer
-  echo "
-    const initialState = {};
+    # Create reducer
+    echo "
+      const initialState = {};
 
-    export default (state = initialState, action) => {
-      const {payload, type} = action;
+      export default (state = initialState, action) => {
+        const {payload, type} = action;
 
-      switch (type) {
-        default:
-          return state;
-      }
-    };
-  " >> "$componentFolder/rdx/$componentName.reducer.js"
+        switch (type) {
+          default:
+            return state;
+        }
+      };
+    " >> "$componentFolder/rdx/$componentName.reducer.js"
+  fi
 
   # Create constants
-  echo "export default {componentName: '$componentName'};" >> "$componentFolder/$componentName.constants.js"
+  touch "$componentFolder/$componentName.constants.js"
 
   # Create styles
   touch "$componentFolder/$componentName.styles.scss"
 
-  # Create test
-  echo "
-    import React from 'react';
-    import $componentName from './$componentName';
-    import renderer from 'react-test-renderer';
-
-    test('$componentName renders correctly', () => {
-    const tree = renderer.create(<$componentName/>).toJSON();
-    expect(tree).toMatchSnapshot();
-    });
-  " >>"$componentFolder/$componentName.test.js"
-
   # Prettify
   prettier --write "$componentFolder"/*
-
-  # Update snapshots
-  yarn test -u --watchAll=false --testPathPattern="$componentFolder"
 done
 
 # Success message
 echo "Created$componentType component(s): $componentNames"
 
 # Commit changes
-#git add .
-#git commit -a -m "Created$componentType component(s): $componentNames"
-#git push
+git add .
+git commit -a -m "Created$componentType component(s): $componentNames"
+git push
