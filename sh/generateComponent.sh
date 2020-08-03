@@ -8,23 +8,23 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
   case $1 in
   -c | --cell)
     componentType=" cell"
-    componentsFolder="./src/components/cells"
+    componentsFolder="./src/components/0_cells"
     ;;
   -t | --tissue)
     componentType=" tissue"
-    componentsFolder="./src/components/tissues"
+    componentsFolder="./src/components/1_tissues"
     ;;
   -u | --unit)
     componentType=" unit"
-    componentsFolder="./src/components/units"
+    componentsFolder="./src/components/2_units"
     ;;
   -o | --organ)
     componentType=" organism"
-    componentsFolder="./src/components/organisms"
+    componentsFolder="./src/components/3_organisms"
     ;;
   -e | -eco | --ecosystem)
     componentType=" ecosystem"
-    componentsFolder="./src/components/ecosystems"
+    componentsFolder="./src/components/4_ecosystems"
     ;;
   --withRedux)
     shift; withRedux=1
@@ -49,14 +49,11 @@ for componentName; do
   # Create component
   echo "
     import React from 'react';
-    import PropTypes from 'prop-types';
     import './$componentName.styles.scss';
 
     const $componentName = () => {
       return <div></div>;
     };
-
-    $componentName.propTypes = {};
 
     export default $componentName;
   " >>"$componentFolder/$componentName.js"
