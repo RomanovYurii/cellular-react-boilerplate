@@ -8,5 +8,4 @@
 -   redux
 -   redux-persist
 -   react-redux
--   Jest
 -   Sass
