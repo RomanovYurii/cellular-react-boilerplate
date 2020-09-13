@@ -22,13 +22,25 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
     componentType=" organism"
     componentsFolder="./src/components/3_organisms"
     ;;
-  -e | -eco | --ecosystem)
+  -e | --eco | --ecosystem)
     componentType=" ecosystem"
     componentsFolder="./src/components/4_ecosystems"
     ;;
   --withRedux)
     shift; withRedux=1
     ;;
+  --help | -h)
+    echo;
+    echo "Shell components generator commands"
+    echo "-c | --cell               Create cell component(s)"
+    echo "-t | --tissue             Create tissue component(s)"
+    echo "-u | --unit               Create unit component(s)"
+    echo "-o | --organ              Create organ component(s)"
+    echo "-e | --eco | --ecosystem  Create ecosystem component(s)"
+    echo "--withRedux               Add redux files to the component folder"
+    echo "-h | --help               Call this menu"
+    echo;
+    exit;
   esac
   shift
 done
