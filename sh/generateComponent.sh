@@ -35,7 +35,7 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
     echo "-c | --cell               Create cell component(s)"
     echo "-t | --tissue             Create tissue component(s)"
     echo "-u | --unit               Create unit component(s)"
-    echo "-o | --organ              Create organism component(s)"
+    echo "-o | --organism           Create organism component(s)"
     echo "-e | --eco | --ecosystem  Create ecosystem component(s)"
     echo "--withRedux               Add redux files to the component folder"
     echo "-h | --help               Call this menu"
@@ -62,11 +62,9 @@ for componentName; do
   echo "
     import React from 'react';
     import './$componentName.styles.scss';
-
     const $componentName = () => {
       return <div></div>;
     };
-
     export default $componentName;
   " >>"$componentFolder/$componentName.js"
 
@@ -86,10 +84,8 @@ for componentName; do
     # Create reducer
     echo "
       const initialState = {};
-
       export default (state = initialState, action) => {
         const {payload, type} = action;
-
         switch (type) {
           default:
             return state;
