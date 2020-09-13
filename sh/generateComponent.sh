@@ -18,7 +18,7 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
     componentType=" unit"
     componentsFolder="./src/components/2_units"
     ;;
-  -o | --organ)
+  -o | --organism)
     componentType=" organism"
     componentsFolder="./src/components/3_organisms"
     ;;
@@ -35,7 +35,7 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
     echo "-c | --cell               Create cell component(s)"
     echo "-t | --tissue             Create tissue component(s)"
     echo "-u | --unit               Create unit component(s)"
-    echo "-o | --organ              Create organ component(s)"
+    echo "-o | --organ              Create organism component(s)"
     echo "-e | --eco | --ecosystem  Create ecosystem component(s)"
     echo "--withRedux               Add redux files to the component folder"
     echo "-h | --help               Call this menu"
